@@ -8,6 +8,7 @@
   );
 
   supabase.from("sessions").insert({
+    tour_id: window.STRE_TOUR_ID || "unknown",
     source: "3dvista",
     started_at: new Date().toISOString()
   });
