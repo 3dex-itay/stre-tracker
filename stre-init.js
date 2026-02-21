@@ -1,33 +1,34 @@
-(function () {
-  const config = window.STRE_CONFIG;
-  if (!config) return;
+alert("STRE INIT JS LOADED");
+
+console.log("STRE init starting");
+
+try {
+  const SUPABASE_URL = "https://vdcgfmqvyujzykgomeym.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_uayeCGdeNHivQq9r6Gne6g_ffxI-cnQ";
+
+  alert("Supabase variables loaded");
 
   const supabase = window.supabase.createClient(
-    config.supabaseUrl,
-    config.supabaseKey
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
   );
 
-  function getVisitorId() {
-    const name = "stre_visitor_id";
-    let id = document.cookie
-      .split("; ")
-      .find(x => x.startsWith(name + "="))
-      ?.split("=")[1];
+  alert("Supabase client created");
 
-    if (!id) {
-      id = crypto.randomUUID();
-      document.cookie = `${name}=${id}; path=/; max-age=31536000`;
-    }
-    return id;
-  }
-
-  const visitorId = getVisitorId();
-  const sessionId = crypto.randomUUID();
-
-console.log("STRE loaded");
-  supabase.from("sessions").insert({
-    visitor_id: visitorId,
-    session_token: sessionId,
-    started_at: new Date().toISOString()
-  });
-})();
+  supabase
+    .from("sessions")
+    .insert({
+      source: "3dvista-test",
+      started_at: new Date().toISOString()
+    })
+    .then(({ error }) => {
+      if (error) {
+        alert("SUPABASE ERROR: " + error.message);
+        console.error(error);
+      } else {
+        alert("SESSION INSERTED SUCCESSFULLY");
+      }
+    });
+} catch (e) {
+  alert("JS ERROR: " + e.message);
+}
