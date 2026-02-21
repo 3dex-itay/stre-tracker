@@ -7,9 +7,18 @@
     SUPABASE_ANON_KEY
   );
 
-  supabase.from("sessions").insert({
-    tour_id: window.STRE_TOUR_ID || "unknown",
-    source: "3dvista",
-    started_at: new Date().toISOString()
-  });
+  supabase
+    .from("sessions")
+    .insert({
+      tour_id: window.STRE_TOUR_ID || null,
+      source: "3dvista",
+      started_at: new Date().toISOString()
+    })
+    .then(({ data, error }) => {
+      if (error) {
+        alert("SUPABASE ERROR: " + error.message);
+      } else {
+        alert("INSERT OK");
+      }
+    });
 })();
