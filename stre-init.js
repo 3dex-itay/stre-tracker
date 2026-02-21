@@ -24,7 +24,7 @@
   const visitorId = getVisitorId();
   const sessionId = crypto.randomUUID();
 
-alert("STRE loaded successfully");
+console.log("STRE loaded");
   supabase.from("sessions").insert({
     visitor_id: visitorId,
     session_token: sessionId,
