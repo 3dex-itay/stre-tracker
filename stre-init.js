@@ -4,12 +4,14 @@
 
   if (!window.supabase) return;
 
-  const supabase = window.supabase.createClient(
+  // Create ONE global client
+  window.STRE_SUPABASE = window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_ANON_KEY
   );
 
-  supabase.from("sessions").insert({
+  // Session insert
+  window.STRE_SUPABASE.from("sessions").insert({
     tour_id: window.STRE_TOUR_ID || null,
     source: "3dvista",
     started_at: new Date().toISOString()
